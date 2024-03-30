@@ -1,0 +1,95 @@
+.newcollections{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    height: 90vh;
+    margin-bottom: 400px;
+}
+.newcollections h1{
+    color: #171717;
+    font-size: 50px;
+    font-weight: 600;
+}
+.newcollections hr{
+    width: 200px;
+    height: 6px;
+    border-radius: 10px;
+    background-color: #252525;
+}
+.collections{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-top: 50px;
+    gap: 30px;
+}
+
+@media(max-width: 1280px){
+    .newcollections{
+        margin-bottom: 200px;
+    }
+    .newcollections h1{
+        height: 40px;
+        margin-bottom: 16px;
+    }
+    .newcollections hr{
+        width: 160px;
+        height: 4px;
+    }
+    .collections{
+        gap:20px;
+        margin-top: 30px;
+    }
+}
+
+@media(max-width: 1024px){
+    .newcollections h1{
+        height: 30px;
+        margin-bottom: 24px;
+    }
+    .newcollections hr{
+        width: 120px;
+        height: 3px;
+    }
+    .collections{
+        gap:15px;
+        margin-top: 20px;
+    }
+}
+
+@media(max-width: 800px){
+    .newcollections{
+        /*height: 50vh;*/
+        margin-bottom: 50px;
+        gap: 6px;
+    }
+    .newcollections h1{
+        height: 20px;
+        margin-bottom: 36px;
+    }
+    .newcollections hr{
+        width: 100px;
+    }
+    .collections{
+        gap:5px;
+    }
+}
+
+@media(max-width: 500px){
+    .newcollections{
+        margin-bottom: 680px;
+    }
+    .newcollections h1{
+        height: 20x;
+        margin-bottom: 48px;
+        font-size: 32px;
+    }
+    .newcollections hr{
+        width: 100px;
+    }
+    .collections{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap:20px;
+    }
+}
