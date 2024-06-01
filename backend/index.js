@@ -2,14 +2,17 @@ const express = require("express");
 const multer = require('./multerConfig');
 const Product = require('./schema');
 const Users = require('./schema2');
-const app = express();
+const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const { privateDecrypt } = require("crypto");
 require("dotenv").config();
-app.use(express.json());
+
+const app = express();
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 app.use(cors());
 
 const port=process.env.PORT || 4000;
@@ -36,6 +39,7 @@ app.post("/upload",multer.single('product'),(req,res)=>{
 
 //addProduct
 app.post('/addproduct',async(req,res)=>{
+    console.log(req.body.image);
     let products = await Product.find({});
     let id;
     if(products.length>0){
