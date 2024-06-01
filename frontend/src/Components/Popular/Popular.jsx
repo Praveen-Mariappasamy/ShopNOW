@@ -4,7 +4,7 @@ import Item from '../Item/Item'
 const Popular = () => {
   const [data_product,setData] = useState([]);
   useEffect(()=>{
-    fetch('http://localhost:4000/popularinwomen')
+    fetch('https://shop-now-api-five.vercel.app/popularinwomen')
     .then((res)=>res.json())
     .then((data)=>setData(data));
   },[])
