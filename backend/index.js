@@ -18,7 +18,9 @@ app.use(cors());
 const port=process.env.PORT || 4000;
 
 //Database Connection
-mongoose.connect(process.env.connection);
+mongoose.connect(process.env.connection)
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
 
 
@@ -28,14 +30,7 @@ app.get("/",(req,res)=>{
     res.send("Express App is Running");
 })
 
-//creating upload endpoint for images
-app.use('/images',express.static('upload/images'))
-app.post("/upload",multer.single('product'),(req,res)=>{
-    res.json({
-        success:1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
-    })
-})
+
 
 //addProduct
 app.post('/addproduct',async(req,res)=>{
