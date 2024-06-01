@@ -15,7 +15,7 @@ const LoginSignup = () => {
 
   const login = async () => {
     let resData;
-    await fetch('http://localhost:4000/login',{
+    await fetch('https://shop-now-api-five.vercel.app/login',{
       method:'POST',
       headers:{
         Accept:'application/json',
@@ -35,7 +35,7 @@ const LoginSignup = () => {
 
   const signup = async () => {
     let resData;
-    await fetch('http://localhost:4000/signup',{
+    await fetch('https://shop-now-api-five.vercel.app/signup',{
       method:'POST',
       headers:{
         Accept:'application/json',
