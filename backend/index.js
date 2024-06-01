@@ -1,5 +1,4 @@
 const express = require("express");
-const multer = require('./multerConfig');
 const Product = require('./schema');
 const Users = require('./schema2');
 const bodyParser = require('body-parser');
@@ -13,7 +12,13 @@ require("dotenv").config();
 const app = express();
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
-app.use(cors());
+app.use(cors(
+    {
+    "origin": ["https://rentify-kjn9.vercel.app", "https://another-allowed-origin.com"],
+    "methods": ["POST", "GET"],
+    "credentials": true
+}
+));
 
 const port=process.env.PORT || 4000;
 
