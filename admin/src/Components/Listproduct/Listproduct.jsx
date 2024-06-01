@@ -4,12 +4,12 @@ import cross_icon from '../../assets/cross_icon.png'
 const Listproduct = () => {
   const [allProd,setAllProd] = useState([]);
   const fetchInfo = async () =>{
-    await fetch('http://localhost:4000/allproducts')
+    await fetch('https://shop-now-api-five.vercel.app/allproducts')
     .then((res)=>res.json())
     .then((data)=>setAllProd(data))  //curly braces optional
   }
   const removeProduct = async (id) => {
-    await fetch('http://localhost:4000/removeproduct',{
+    await fetch('https://shop-now-api-five.vercel.app/removeproduct',{
       method:'POST',
       headers:{
         Accept:'application/json',
