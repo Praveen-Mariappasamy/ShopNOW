@@ -14,7 +14,7 @@ app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 app.use(cors(
     {
-    "origin": ["https://rentify-kjn9.vercel.app", "https://another-allowed-origin.com"],
+    "origin": ["https://shop-now-lac.vercel.app", "https://shop-now-admin.vercel.app"],
     "methods": ["POST", "GET"],
     "credentials": true
 }
