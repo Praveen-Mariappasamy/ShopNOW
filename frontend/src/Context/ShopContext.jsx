@@ -26,7 +26,7 @@ const ShopContextProvider = (props) => {
 
 
         localStorage.getItem('auth-token') &&
-fetch('http://localhost:4000/getuserdata', {
+fetch('https://shop-now-api-five.vercel.app/getuserdata', {
     method: 'POST',
     headers: {
         Accept: 'application/form-data',
@@ -50,9 +50,9 @@ fetch('http://localhost:4000/getuserdata', {
 
     useEffect(()=>{
         Promise.all([
-            fetch('http://localhost:4000/allproducts').then((res) => res.json()),
+            fetch('https://shop-now-api-five.vercel.app/allproducts').then((res) => res.json()),
             localStorage.getItem('auth-token')
-                ? fetch('http://localhost:4000/getcart', {
+                ? fetch('https://shop-now-api-five.vercel.app/getcart', {
                       method: 'POST',
                       headers: {
                           Accept: 'application/form-data',
@@ -73,7 +73,7 @@ fetch('http://localhost:4000/getuserdata', {
     const addToCart = (itemId)=>{
         setCartItem((prev)=>({...prev,[itemId]:prev[itemId]+1}))
         if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/addtocart',{
+            fetch('https://shop-now-api-five.vercel.app/addtocart',{
                 method:'POST',
                 headers:{
                     Accept:'application/form-data',
@@ -90,7 +90,7 @@ fetch('http://localhost:4000/getuserdata', {
     const removeFromCart = (itemId)=>{
         setCartItem((prev)=>({...prev,[itemId]:prev[itemId]-1}))
         if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/removefromcart',{
+            fetch('https://shop-now-api-five.vercel.app/removefromcart',{
                 method:'POST',
                 headers:{
                     Accept:'application/form-data',
