@@ -77,10 +77,14 @@ app.post('/removeproduct', async(req,res)=>{
 })
 
 //crreating api for getting all products
-app.get('/allproducts',async(req,res)=>{
-    let products = await Product.find({});
-    res.send(products);
-})
+app.get('/allproducts', async (req, res) => {
+    try {
+        let products = await Product.find({});
+        res.status(200).send(products);
+    } catch (error) {
+        res.status(500).send({ error: 'Failed to fetch products' });
+    }
+});
 
 
 //creating endpoint for registering user
