@@ -4,7 +4,7 @@ import Item from '../Item/Item'
 const NewCollections = () => {
   const [new_collection,setnewcollection] = useState([]);
   useEffect(()=>{
-    fetch('http://localhost:4000/newcollection')
+    fetch('https://shop-now-api-five.vercel.app/newcollection')
     .then((res)=>res.json())
     .then((data)=>setnewcollection(data));
   },[])
