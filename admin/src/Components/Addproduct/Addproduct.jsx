@@ -27,7 +27,7 @@ const Addproduct = () => {
             }
             const base64Data = reader.result;
             product.image = base64Data;
-            await fetch('http://localhost:4000/addproduct', {
+            await fetch('https://shop-now-api-five.vercel.app/addproduct', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
