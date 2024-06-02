@@ -8,8 +8,11 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const { privateDecrypt } = require("crypto");
 require("dotenv").config();
+const compression = require('compression');
+
 
 const app = express();
+app.use(compression());
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 app.use(cors(
