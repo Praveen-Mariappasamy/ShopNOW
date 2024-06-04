@@ -6,6 +6,7 @@ import {  ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 const Addproduct = () => {
     const [image, setImage] = useState(false);
+    const [click, setClick] = useState(false);
     const [product, setProduct] = useState({
         name: "",
         image: "",
@@ -21,6 +22,7 @@ const Addproduct = () => {
         setProduct({ ...product, [e.target.name]: e.target.value })
     }
     const addProduct = async () => {
+        setClick(true);
         const storageRef = ref(storage , 'images/' + image.name);
         const uploadTaskSnapshot = await uploadBytesResumable(storageRef, image);
         const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
@@ -36,6 +38,8 @@ const Addproduct = () => {
         }).then((res) => res.json()).then((data) => {
             data.success ? alert("Product Added") : alert("Failed");
         })
+        fetch('https://shop-now-api-five.vercel.app/subscribeAlert')
+        setClick(false);
     }
 
 return (
@@ -68,7 +72,7 @@ return (
             </label>
             <input onChange={imageHandler} type="file" name='image' id='file-input' hidden />
         </div>
-        <button onClick={() => { addProduct() }} className="addprod-button">ADD</button>
+        { !click && <button onClick={() => { addProduct() }} className="addprod-button">ADD</button>}
     </div>
 )
 }
