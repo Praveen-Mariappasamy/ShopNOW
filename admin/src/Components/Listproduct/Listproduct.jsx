@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import './Listproduct.css'
 import cross_icon from '../../assets/cross_icon.png'
+import { storage } from '../../firebaseConfig'; // Adjust the path as needed
+import { ref, deleteObject } from "firebase/storage";
+
 const Listproduct = () => {
   const [allProd,setAllProd] = useState([]);
   const fetchInfo = async () =>{
-    await fetch('https://shop-now-api-five.vercel.app/allproducts')
+    await fetch('http://localhost:4000/allproducts')
     .then((res)=>res.json())
     .then((data)=>setAllProd(data))  //curly braces optional
   }
-  const removeProduct = async (id) => {
-    await fetch('https://shop-now-api-five.vercel.app/removeproduct',{
+  const removeProduct = async (id,imagePath) => {
+
+    await fetch('http://localhost:4000/removeproduct',{
       method:'POST',
       headers:{
         Accept:'application/json',
@@ -17,6 +21,10 @@ const Listproduct = () => {
       },
       body:JSON.stringify({id:id})
     })
+    const imageRef = ref(storage, imagePath);
+    await deleteObject(imageRef).catch((error) => {
+      console.error('Error deleting image:', error);
+    });
     await fetchInfo();
   }
   useEffect(()=>{
@@ -43,7 +51,7 @@ const Listproduct = () => {
             <p>${product.old_price}</p>
             <p>${product.new_price}</p>
             <p>{product.category}</p>
-            <img onClick={()=>{removeProduct(product.id)}} src={cross_icon} alt="" className="listprod-remove-icon" />
+            <img onClick={()=>{removeProduct(product.id , product.image)}} src={cross_icon} alt="" className="listprod-remove-icon" />
             </div>
             <hr />
             </> 
