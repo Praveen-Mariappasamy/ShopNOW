@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Listproduct.css'
 import cross_icon from '../../assets/cross_icon.png'
-import { storage } from '../../firebaseConfig'; 
+import { storage } from '../../firebaseConfig'; // Adjust the path as needed
 import { ref, deleteObject } from "firebase/storage";
 
 const Listproduct = () => {
@@ -9,7 +9,7 @@ const Listproduct = () => {
   const fetchInfo = async () =>{
     await fetch('https://shop-now-api-five.vercel.app/allproducts')
     .then((res)=>res.json())
-    .then((data)=>setAllProd(data))  
+    .then((data)=>setAllProd(data))  //curly braces optional
   }
   const removeProduct = async (id,imagePath) => {
 
