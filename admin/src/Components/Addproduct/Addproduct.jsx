@@ -26,7 +26,7 @@ const Addproduct = () => {
         const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
         console.log('Download URL:', downloadURL);
         product.image=downloadURL;
-        await fetch('http://localhost:4000/addproduct', {
+        await fetch('https://shop-now-api-five.vercel.app/addproduct', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
