@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import './Listproduct.css'
 import cross_icon from '../../assets/cross_icon.png'
-import { storage } from '../../firebaseConfig'; // Adjust the path as needed
+import { storage } from '../../firebaseConfig'; 
 import { ref, deleteObject } from "firebase/storage";
 
 const Listproduct = () => {
   const [allProd,setAllProd] = useState([]);
   const fetchInfo = async () =>{
-    await fetch('http://localhost:4000/allproducts')
+    await fetch('https://shop-now-api-five.vercel.app/allproducts')
     .then((res)=>res.json())
-    .then((data)=>setAllProd(data))  //curly braces optional
+    .then((data)=>setAllProd(data))  
   }
   const removeProduct = async (id,imagePath) => {
 
-    await fetch('http://localhost:4000/removeproduct',{
+    await fetch('https://shop-now-api-five.vercel.app/removeproduct',{
       method:'POST',
       headers:{
         Accept:'application/json',
