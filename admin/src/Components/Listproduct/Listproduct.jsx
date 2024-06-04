@@ -7,7 +7,14 @@ import { ref, deleteObject } from "firebase/storage";
 const Listproduct = () => {
   const [allProd,setAllProd] = useState([]);
   const fetchInfo = async () =>{
-    await fetch('https://shop-now-api-five.vercel.app/allproducts')
+    await fetch('https://shop-now-api-five.vercel.app/allproducts',{
+      method: 'POST',
+      headers:{
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({filter: 0})
+    })
     .then((res)=>res.json())
     .then((data)=>setAllProd(data))  //curly braces optional
   }
