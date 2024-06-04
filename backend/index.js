@@ -1,37 +1,81 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const jwt = require('jsonwebtoken');
-const { privateDecrypt } = require('crypto');
-require('dotenv').config();
+const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+const jwt = require('jsonwebtoken')
+const { privateDecrypt } = require('crypto')
+require('dotenv').config()
 const Users = require('./schema2')
 const Product = require('./schema')
+const Subscriber = require('./schema3')
+const nodemailer = require('nodemailer')
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+const app = express()
+app.use(express.json())
+app.use(cors())
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000
 
-mongoose.connect(process.env.connection);
+mongoose.connect(process.env.connection)
 
 // API creation
 app.get('/', (req, res) => {
-  res.send('Express App is Running');
-});
+  res.send('Express App is Running')
+})
 
+//handle subsriber
+app.post('/subscribe', async (req, res) => {
+  const email = req.body.email
+  const subscriber = new Subscriber({
+    email: email,
+  })
+  await subscriber.save()
+  res.send({ success: true })
+})
+
+app.get('/subscribeAlert', async (req, res) => {
+  const subscribers = await Subscriber.find({})
+  if (!subscribers) {
+    return res.send('No subscribers found') // Handle no subscribers case
+  }
+  subscribers.forEach((sub) => {
+    const email = sub.email
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false, // required for TLS connection
+      auth: {
+        user: 'praveenmariappan23@gmail.com', // Replace with your Gmail address
+        pass: 'mzhudbstruvomslc', // Replace with your App Password (not your regular Gmail password)
+      },
+    })
+    const emailOptions = {
+      from: 'praveenmariappan23@gmail.com',
+      to: email,
+      subject: 'New Arrivals Update',
+      text: 'Visit your shopnow account for exciting offers and new arrivals',
+    }
+    transporter.sendMail(emailOptions, (error, info) => {
+      if (error) {
+        console.log(error)
+      } else {
+        res.send({ success: true })
+      }
+    })
+  })
+})
 
 //addProduct
 app.post('/addproduct', async (req, res) => {
-    const { name, new_price, image , old_price, category } = req.body;
-    let products = await Product.find({});
-    let id;
+  try {
+    const { name, new_price, image, old_price, category } = req.body
+    let products = await Product.find({})
+    let id
     if (products.length > 0) {
-      let last_product_array = products.slice(-1);
-      let last_product = last_product_array[0];
-      id = last_product.id + 1;
+      let last_product_array = products.slice(-1)
+      let last_product = last_product_array[0]
+      id = last_product.id + 1
     } else {
-      id = 1;
+      id = 1
     }
     const product = new Product({
       id: id,
@@ -40,14 +84,17 @@ app.post('/addproduct', async (req, res) => {
       category: category,
       new_price: new_price,
       old_price: old_price,
-    });
-    await product.save();
-    console.log('saved');
+    })
+    await product.save()
+    console.log('saved')
     res.json({
       success: true,
       name: name,
-    });
-  });
+    })
+  } catch {
+    res.send({ success: false })
+  }
+})
 
 //remove product api
 app.post('/removeproduct', async (req, res) => {
@@ -60,35 +107,30 @@ app.post('/removeproduct', async (req, res) => {
 })
 
 //crreating api for getting all products
-app.get('/allproducts', async (req, res) => {
-  let products = await Product.find({})
+app.post('/allproducts', async (req, res) => {
+  let sorter = req.body.filter
+  let products = await Product.find({}).sort({ new_price: sorter })
   res.send(products)
 })
 
 app.get('/image/:filename', async (req, res) => {
-    try{
-      const file = await gfs.files.findOne({filename: req.params.filename});
-      const readStream = gfs.createReadStream(file.filename);
-      readStream.pipe(res);
-    }
-    catch{
-      res.send('not found');
-    }
-  });
-  
-
-
+  try {
+    const file = await gfs.files.findOne({ filename: req.params.filename })
+    const readStream = gfs.createReadStream(file.filename)
+    readStream.pipe(res)
+  } catch {
+    res.send('not found')
+  }
+})
 
 //creating endpoint for registering user
 app.post('/signup', async (req, res) => {
   let check = await Users.findOne({ email: req.body.email })
   if (check) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        error: 'existing user found with same email address',
-      })
+    return res.status(400).json({
+      success: false,
+      error: 'existing user found with same email address',
+    })
   }
   let cart = {}
   for (let i = 0; i < 300; i++) {
@@ -190,7 +232,6 @@ app.post('/removefromcart', fetchUser, async (req, res) => {
 
 //creating endpoint to get cartdata
 app.post('/getcart', fetchUser, async (req, res) => {
-  console.log('GetCart')
   let userData = await Users.findOne({ _id: req.user.id })
   res.json(userData.cartData)
 })
@@ -205,7 +246,7 @@ app.post('/getuserdata', fetchUser, async (req, res) => {
 app.listen(port, (error) => {
   if (!error) {
     console.log('Server Running in Port ' + port)
-    console.log(process.env.connection);
+    console.log(process.env.connection)
   } else {
     console.log('Error : ' + error)
   }
