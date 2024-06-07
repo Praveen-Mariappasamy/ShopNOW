@@ -69,7 +69,7 @@ const CartItem = () => {
             <h1>Cart Total</h1>
             <div className="totalitem">
                 <p>Subtotal</p>
-                <p>${getTotalCartAmount()}</p>
+                <p>Rs {getTotalCartAmount()}</p>
             </div>
             <hr />
             <div className="totalitem">
