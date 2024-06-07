@@ -15,7 +15,7 @@ const CartItem = () => {
         key:"rzp_test_eVRjxDvlNepsfq",
         key_secret:"jaS8Bv5tzdHIulmc495tnEQc",
         amount: amount*100,
-        currency : "USD",
+        currency : "INR",
         name:"shopnow",
         description:"e-commerce testing",
         handler: function(res){
